@@ -16,7 +16,25 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            presets: ["env", "react"],
+            plugins: [
+              "transform-object-rest-spread",
+              "transform-decorators-legacy",
+              "syntax-dynamic-import",
+              "react-loadable/babel",
+              ["transform-runtime", {
+                "helpers": false,
+                "polyfill": false,
+                "regenerator": true,
+                "moduleName": "babel-runtime"
+              }]
+            ]
+          }
+        },
         exclude: /node_modules/
       },
       {
