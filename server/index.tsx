@@ -1,14 +1,20 @@
 import express from 'express';
-import { renderToString } from 'react-dom/server';
 import { matchRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import render from './render';
 import store from '../src/store';
-import Routes from '../src/router/Routes';
+import { Routes } from '../src/router/Routes';
 
 
 const PORT = process.env.PORT || 8079;
 const app = express();
+
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500).send({ "error": err });
+}
 
 app.use('/dist', express.static('dist'));
 
@@ -22,7 +28,10 @@ app.use((req, res, next) => {
 
 app.use(/\.js$/, express.static('dist'));
 app.get('*', async (req, res) => {
-  const actionsTemp = matchRoutes(Routes, req.path).map(({ route }) => !route.component.preload ? route.component : route.component.preload().then(res => res.default));
+  const actionsTemp = matchRoutes(Routes, req.path).map(({ route }) => {
+    const component: any = route.component;
+    return !component.preload ? component : component.preload().then(res => res.default)
+  });
 
   const loadedActions = await Promise.all(actionsTemp);
     const actions = loadedActions
@@ -39,6 +48,8 @@ app.get('*', async (req, res) => {
 
   res.send(content);
 });
+
+app.use(errorHandler);
 
 Loadable.preloadAll().then(() => {
   app.listen(PORT, () => console.log(`Frontend service listening on port: ${PORT}`));

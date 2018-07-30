@@ -1,16 +1,13 @@
-import React from 'react';
-import { hydrate } from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Loadable from 'react-loadable'
+import * as Loadable from 'react-loadable'
 import Router from './router';
 import store from './store';
 import '../scss/main.scss';
 
-
-
-
 Loadable.preloadReady().then(() => {
-  hydrate(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <Router/>
     </Provider>,

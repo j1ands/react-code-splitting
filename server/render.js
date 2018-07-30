@@ -20,7 +20,10 @@ export default (pathname, store, context) => {
     </Loadable.Capture>
   );
 
+  console.log(content);
+
   let bundles = getBundles(stats, modules);
+  console.log(bundles);
 
   return `
   <!DOCTYPE html>

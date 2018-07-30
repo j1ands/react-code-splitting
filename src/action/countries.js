@@ -15,7 +15,8 @@ export const fetchCountries = () => async dispatch => {
     const res = await axios.get(`${ROOT}/all`);
     dispatch({ type: RECEIVE_COUNTRIES, payload: res.data });
   } catch(e) {
-    console.log(e);
+    // console.log(e);
+    console.log("failed countiries");
     dispatch({ type: RECEIVE_COUNTRIES, payload: [] });
   }
 };
@@ -27,7 +28,8 @@ export const fetchCountry = name => async dispatch => {
     const res = await axios.get(`${ROOT}/name/${name}`);
     dispatch({ type: RECEIVE_COUNTRY, payload: res.data[0] });
   } catch(e) {
-      console.log(e);
+      // console.log(e);
+      console.log("failed country");
     dispatch({ type: RECEIVE_COUNTRY, payload: {} });
   }
 };
