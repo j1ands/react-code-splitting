@@ -14,7 +14,7 @@ const Country = Loadable({
   loading
 });
 
-export const Routes = [
+export default [
   {
     component: Countries,
     path: '/',

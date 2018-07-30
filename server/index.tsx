@@ -3,7 +3,7 @@ import { matchRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import render from './render';
 import store from '../src/store';
-import { Routes } from '../src/router/Routes';
+import Routes from '../src/router/Routes';
 
 
 const PORT = process.env.PORT || 8079;
@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 
 app.use(/\.js$/, express.static('dist'));
 app.get('*', async (req, res) => {
+  debugger;
   const actionsTemp = matchRoutes(Routes, req.path).map(({ route }) => {
     const component: any = route.component;
     return !component.preload ? component : component.preload().then(res => res.default)
